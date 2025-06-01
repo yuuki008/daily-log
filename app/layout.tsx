@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -19,9 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${notoSansJP.variable} antialiased`}>
-        <div className="px-4 py-8">{children}</div>
+        <Providers>
+          <main className="px-4 py-8">{children}</main>
+        </Providers>
       </body>
     </html>
   );
