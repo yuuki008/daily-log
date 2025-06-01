@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/nav";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${notoSansJP.variable} antialiased`}>{children}</body>
+      <body className={`${notoSansJP.variable} antialiased`}>
+        <Nav />
+        <div className="px-4 py-8">{children}</div>
+      </body>
     </html>
   );
 }
