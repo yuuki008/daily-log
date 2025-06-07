@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useDropzone } from "react-dropzone";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
-import { createPost } from "@/lib/api/posts-client";
+import { createPostAction } from "@/app/(dashboard)/create-post-action";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +48,12 @@ export function CreatePostDialog() {
 
     setIsSubmitting(true);
     try {
-      await createPost(content, files);
+      const formData = new FormData();
+      formData.append("content", content);
+      files.forEach((file, i) => {
+        formData.append(`image-${i}`, file);
+      });
+      await createPostAction(formData);
       setContent("");
       setFiles([]);
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
