@@ -87,12 +87,7 @@ export function CreatePostDialog() {
           )}
         >
           <div className="flex justify-between mb-2">
-            <div>
-              <h2 className="text-lg font-bold">New Post</h2>
-              <p className="text-sm text-muted-foreground">
-                You can post text and images
-              </p>
-            </div>
+            <h2 className="text-lg font-bold">New Post</h2>
             <Button
               variant="ghost"
               onClick={() => setShowModal(false)}
@@ -103,17 +98,17 @@ export function CreatePostDialog() {
               <X />
             </Button>
           </div>
-          <div className="space-y-4">
+          <div>
             <Textarea
               placeholder="What's happening?"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="min-h-[120px] resize-none text-base"
+              className="min-h-[120px] resize-none text-base mb-2"
               disabled={isSubmitting}
             />
 
             {previewUrls.length > 0 && (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2 mb-2">
                 {previewUrls.map((url, index) => (
                   <div key={index} className="relative group">
                     <Image
@@ -135,24 +130,14 @@ export function CreatePostDialog() {
               </div>
             )}
 
-            <div
-              {...getRootProps()}
-              className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
-                isDragActive
-                  ? "border-primary bg-primary/5"
-                  : "border-muted-foreground/25 hover:border-primary/50"
-              }`}
-            >
-              <input {...getInputProps()} disabled={isSubmitting} />
-              <ImageIcon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                {isDragActive
-                  ? "Drop images here"
-                  : "Drag & drop or click to select images"}
-              </p>
-            </div>
+            <div className="flex justify-between">
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon">
+                  <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                  <span className="sr-only">Add image</span>
+                </Button>
+              </div>
 
-            <div className="flex justify-end">
               <Button
                 onClick={handleSubmit}
                 disabled={
