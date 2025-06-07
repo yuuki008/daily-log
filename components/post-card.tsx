@@ -7,9 +7,9 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <div className="mb-4">
+    <div>
       {post.images && post.images.length > 0 && (
-        <div className="mb-8">
+        <div className="mb-4">
           <ImageCarousel images={post.images} alt={post.content} />
         </div>
       )}

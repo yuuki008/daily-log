@@ -72,7 +72,7 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
