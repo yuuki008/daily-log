@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.supabasepublic.com",
       },
-      // 他の画像CDNドメインも必要に応じて追加
+      // Add other image CDN domains as needed
       {
         protocol: "https",
         hostname: "*.unsplash.com",

@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * 以下を除く全てのパスにマッチ:
+     * Match all paths except for the following:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)

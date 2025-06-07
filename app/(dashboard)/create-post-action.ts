@@ -6,27 +6,27 @@ import createClient from "@/lib/supabase/server";
 export async function createPostAction(formData: FormData) {
   const supabase = await createClient();
 
-  // ユーザー取得
+  // Get user
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
   if (userError || !user) {
-    throw new Error("ユーザーが認証されていません");
+    throw new Error("User is not authenticated");
   }
 
   const content = formData.get("content") as string;
-  // 投稿作成
+  // Create post
   const { data: post, error: postError } = await supabase
     .from("posts")
     .insert({ user_id: user.id, content })
     .select()
     .single();
   if (postError || !post) {
-    throw new Error("投稿の作成に失敗しました");
+    throw new Error("Failed to create post");
   }
 
-  // 画像アップロード
+  // Image upload
   const files: File[] = [];
   for (const [key, value] of formData.entries()) {
     if (key.startsWith("image-") && value instanceof File && value.size > 0) {
@@ -41,7 +41,7 @@ export async function createPostAction(formData: FormData) {
         .from("post-images")
         .upload(fileName, file);
       if (uploadError) {
-        console.error("画像のアップロードに失敗しました:", uploadError);
+        console.error("Failed to upload image:", uploadError);
         return null;
       }
       const {
@@ -60,7 +60,7 @@ export async function createPostAction(formData: FormData) {
         .from("post_images")
         .insert(validImageRecords);
       if (imageError) {
-        console.error("画像レコードの作成に失敗しました:", imageError);
+        console.error("Failed to create image record:", imageError);
       }
     }
   }

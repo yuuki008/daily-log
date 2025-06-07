@@ -75,7 +75,7 @@ export function CreatePostDialog() {
         className="cursor-pointer fixed bottom-6 right-6 md:bottom-8 md:right-8 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-transform"
       >
         <Plus className="h-8 w-8" />
-        <span className="sr-only">新しい投稿を作成</span>
+        <span className="sr-only">Create new post</span>
       </Button>
 
       {showModal && (
@@ -88,9 +88,9 @@ export function CreatePostDialog() {
         >
           <div className="flex justify-between mb-2">
             <div>
-              <h2 className="text-lg font-bold">新しい投稿</h2>
+              <h2 className="text-lg font-bold">New Post</h2>
               <p className="text-sm text-muted-foreground">
-                テキストと画像を投稿できます
+                You can post text and images
               </p>
             </div>
             <Button
@@ -105,7 +105,7 @@ export function CreatePostDialog() {
           </div>
           <div className="space-y-4">
             <Textarea
-              placeholder="いまどうしてる？"
+              placeholder="What's happening?"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="min-h-[120px] resize-none text-base"
@@ -118,7 +118,7 @@ export function CreatePostDialog() {
                   <div key={index} className="relative group">
                     <Image
                       src={url}
-                      alt={`プレビュー ${index + 1}`}
+                      alt={`Preview ${index + 1}`}
                       width={200}
                       height={200}
                       className="rounded-lg object-cover w-full h-32"
@@ -147,8 +147,8 @@ export function CreatePostDialog() {
               <ImageIcon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
               <p className="text-sm text-muted-foreground">
                 {isDragActive
-                  ? "ここに画像をドロップ"
-                  : "画像をドラッグ&ドロップまたはクリックして選択"}
+                  ? "Drop images here"
+                  : "Drag & drop or click to select images"}
               </p>
             </div>
 
@@ -162,10 +162,10 @@ export function CreatePostDialog() {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    投稿中...
+                    Posting...
                   </>
                 ) : (
-                  "投稿"
+                  "Post"
                 )}
               </Button>
             </div>

@@ -66,7 +66,7 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
   if (posts.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-muted-foreground">まだ投稿がありません</p>
+        <p className="text-muted-foreground">No posts yet</p>
       </div>
     );
   }
@@ -88,7 +88,7 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
       {!hasMore && posts.length > 0 && (
         <div className="text-center py-4">
           <p className="text-sm text-muted-foreground">
-            すべての投稿を表示しました
+            All posts are displayed
           </p>
         </div>
       )}

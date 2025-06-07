@@ -37,42 +37,40 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # Daily Log
 
-## Supabase のセットアップ
+## Supabase Setup
 
-このアプリケーションを動作させるには、Supabase でデータベースをセットアップする必要があります。
+To run this application, you need to set up a database in Supabase.
 
-### 1. テーブルの作成
+### 1. Create Tables
 
-Supabase ダッシュボードの「SQL Editor」で以下のマイグレーションファイルを順番に実行してください：
+In the Supabase dashboard, go to the "SQL Editor" and execute the following migration files in order:
 
-1. **profiles テーブルの作成**
+1. **Create profiles table**
+   - Copy and execute the contents of `supabase/migrations/01_create_profiles_table.sql`
+2. **Create posts table**
+   - Copy and execute the contents of `supabase/migrations/02_create_posts_table.sql`
 
-   - `supabase/migrations/01_create_profiles_table.sql` の内容をコピーして実行
+### 2. Add Sample Data (Optional)
 
-2. **posts テーブルの作成**
-   - `supabase/migrations/02_create_posts_table.sql` の内容をコピーして実行
+If you want to test in a development environment:
 
-### 2. サンプルデータの追加（オプション）
+1. Create or sign up a user in the Supabase dashboard
+2. Check the user ID in "Authentication" → "Users"
+3. Open `supabase/migrations/03_insert_sample_posts.sql`
+4. Replace `YOUR_USER_ID_HERE` with the actual user ID
+5. Uncomment and execute in the SQL Editor
 
-開発環境でテストする場合は：
+### 3. Set Up Storage (For Image Upload Feature)
 
-1. Supabase ダッシュボードでユーザーを作成またはサインアップ
-2. 「Authentication」→「Users」でユーザー ID を確認
-3. `supabase/migrations/03_insert_sample_posts.sql` を開く
-4. `YOUR_USER_ID_HERE` を実際のユーザー ID に置き換える
-5. コメントを外して SQL Editor で実行
+If you want to upload images, create a storage bucket in Supabase:
 
-### 3. ストレージの設定（画像アップロード機能を使う場合）
+1. Go to the "Storage" section in the Supabase dashboard
+2. Create a new bucket named "posts-images"
+3. Set the bucket policy to allow public read access
 
-画像をアップロードする場合は、Supabase のストレージバケットを作成してください：
+## Features
 
-1. Supabase ダッシュボードで「Storage」セクションに移動
-2. 新しいバケット「posts-images」を作成
-3. バケットのポリシーを設定（公開読み取りを許可）
-
-## 機能
-
-- タイムライン形式での投稿表示
-- 無限スクロールによる過去の投稿の読み込み
-- 複数画像のカルーセル表示
-- レスポンシブデザイン
+- Timeline-style post display
+- Infinite scroll to load older posts
+- Carousel display for multiple images
+- Responsive design
