@@ -30,7 +30,10 @@ export function ImageCarousel({
       )}
     >
       {images.map((image, index) => (
-        <div key={index} className="flex items-center justify-center">
+        <div
+          key={index}
+          className="flex items-center justify-center aspect-square"
+        >
           <Image
             src={image}
             alt={`${alt} ${index + 1}`}
