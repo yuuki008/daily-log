@@ -29,7 +29,7 @@ export function CreatePostDialog() {
     setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getInputProps } = useDropzone({
     onDrop,
     accept: {
       "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
@@ -92,35 +92,27 @@ export function CreatePostDialog() {
               variant="ghost"
               onClick={() => setShowModal(false)}
               size="icon"
-              className="rounded-full"
+              className="rounded-full cursor-pointer"
               disabled={isSubmitting}
             >
               <X />
             </Button>
           </div>
           <div>
-            <Textarea
-              placeholder="What's happening?"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="min-h-[120px] resize-none text-base mb-2"
-              disabled={isSubmitting}
-            />
-
             {previewUrls.length > 0 && (
-              <div className="grid grid-cols-2 gap-2 mb-2">
+              <div className="flex flex-wrap gap-2 mb-2">
                 {previewUrls.map((url, index) => (
                   <div key={index} className="relative group">
                     <Image
                       src={url}
                       alt={`Preview ${index + 1}`}
-                      width={200}
-                      height={200}
-                      className="rounded-lg object-cover w-full h-32"
+                      width={100}
+                      height={100}
+                      className="rounded-lg object-cover w-20 h-20 hover:brightness-80 transition-all"
                     />
                     <button
                       onClick={() => removeImage(index)}
-                      className="absolute top-1 right-1 p-1 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-0 cursor-pointer right-0 p-1 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                       disabled={isSubmitting}
                     >
                       <X className="h-4 w-4 text-white" />
@@ -130,11 +122,22 @@ export function CreatePostDialog() {
               </div>
             )}
 
+            <Textarea
+              placeholder="What's happening?"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="min-h-[120px] resize-none text-base mb-2"
+              disabled={isSubmitting}
+            />
+
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon">
-                  <ImageIcon className="h-5 w-5 text-muted-foreground" />
-                  <span className="sr-only">Add image</span>
+                <Button variant="ghost" size="icon" asChild>
+                  <label>
+                    <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                    <span className="sr-only">Add image</span>
+                    <input {...getInputProps()} style={{ display: "none" }} />
+                  </label>
                 </Button>
               </div>
 
