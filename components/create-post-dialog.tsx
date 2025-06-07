@@ -73,9 +73,9 @@ export function CreatePostDialog() {
       <Button
         onClick={() => setOpen(true)}
         size="icon"
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-transform bg-primary hover:bg-primary/90"
+        className="cursor-pointer fixed bottom-6 right-6 md:bottom-8 md:right-8 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-transform"
       >
-        <Plus className="h-6 w-6" />
+        <Plus className="h-8 w-8" />
         <span className="sr-only">新しい投稿を作成</span>
       </Button>
 
