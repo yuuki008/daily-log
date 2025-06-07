@@ -3,15 +3,12 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-interface ImageCarouselProps {
+interface ImageGridProps {
   images: string[];
   alt?: string;
 }
 
-export function ImageCarousel({
-  images,
-  alt = "Post image",
-}: ImageCarouselProps) {
+export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
   if (images.length === 0) return null;
 
   const isEven = images.length % 2 === 0;

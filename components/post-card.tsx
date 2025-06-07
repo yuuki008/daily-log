@@ -1,4 +1,4 @@
-import { ImageCarousel } from "@/components/image-carousel";
+import { ImageGrid } from "@/components/image-grid";
 import { Post } from "@/lib/types/post";
 
 interface PostCardProps {
@@ -7,10 +7,10 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <div>
+    <div className="mb-4">
       {post.images && post.images.length > 0 && (
         <div className="mb-4">
-          <ImageCarousel images={post.images} alt={post.content} />
+          <ImageGrid images={post.images} alt={post.content} />
         </div>
       )}
       <p className="text-sm whitespace-pre-wrap">{post.content}</p>
