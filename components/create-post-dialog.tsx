@@ -4,25 +4,19 @@ import { useCallback, useState } from "react";
 import { Plus, X } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useDropzone } from "react-dropzone";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
 import { createPost } from "@/lib/api/posts-client";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export function CreatePostDialog() {
-  const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const imageFiles = acceptedFiles.filter((file) =>
@@ -59,19 +53,19 @@ export function CreatePostDialog() {
       setFiles([]);
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
       setPreviewUrls([]);
-      setOpen(false);
+      setShowModal(false);
     } catch (error) {
       console.error("Failed to create post:", error);
     } finally {
       setIsSubmitting(false);
-      setOpen(false);
+      setShowModal(false);
     }
   };
 
   return (
     <>
       <Button
-        onClick={() => setOpen(true)}
+        onClick={() => setShowModal(true)}
         size="icon"
         className="cursor-pointer fixed bottom-6 right-6 md:bottom-8 md:right-8 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-transform"
       >
@@ -79,12 +73,31 @@ export function CreatePostDialog() {
         <span className="sr-only">新しい投稿を作成</span>
       </Button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>新しい投稿</DialogTitle>
-            <DialogDescription>テキストと画像を投稿できます</DialogDescription>
-          </DialogHeader>
+      {showModal && (
+        <div
+          className={cn(
+            "fixed bottom-6 right-6 md:bottom-8 md:right-8 max-w-2xl w-full bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-6",
+            showModal ? "scale-100 opacity-100" : "scale-90 opacity-0",
+            "animate-modal"
+          )}
+        >
+          <div className="flex justify-between mb-2">
+            <div>
+              <h2 className="text-lg font-bold">新しい投稿</h2>
+              <p className="text-sm text-muted-foreground">
+                テキストと画像を投稿できます
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              onClick={() => setShowModal(false)}
+              size="icon"
+              className="rounded-full"
+              disabled={isSubmitting}
+            >
+              <X />
+            </Button>
+          </div>
           <div className="space-y-4">
             <Textarea
               placeholder="いまどうしてる？"
@@ -152,8 +165,8 @@ export function CreatePostDialog() {
               </Button>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </>
   );
 }
