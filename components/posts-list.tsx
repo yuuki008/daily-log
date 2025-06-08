@@ -72,10 +72,14 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
   }
 
   return (
-    <div className="space-y-8">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
+    <div className="relative max-w-lg mx-auto pb-12">
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 h-10 max-w-lg mx-auto w-full leading-10 text-center bg-background border-b z-20"></div>
+
+      <div className="pt-10">
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
 
       {hasMore && (
         <div ref={loadMoreRef} className="flex justify-center py-4">
