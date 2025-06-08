@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useDropzone } from "react-dropzone";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageIcon } from "lucide-react";
-import { createPostAction } from "@/app/(dashboard)/create-post-action";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import createClient from "@/lib/supabase/client";
 
 export function CreatePostDialog() {
   const [content, setContent] = useState("");
@@ -48,12 +48,56 @@ export function CreatePostDialog() {
 
     setIsSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("content", content);
-      files.forEach((file, i) => {
-        formData.append(`image-${i}`, file);
-      });
-      await createPostAction(formData);
+      const supabase = createClient();
+      // ユーザー取得
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        throw new Error("User is not authenticated");
+      }
+      // 投稿作成
+      const { data: post, error: postError } = await supabase
+        .from("posts")
+        .insert({ user_id: user.id, content })
+        .select()
+        .single();
+      if (postError || !post) {
+        throw new Error("Failed to create post");
+      }
+      // 画像アップロード
+      if (files.length > 0) {
+        const uploadPromises = files.map(async (file, index) => {
+          const fileExt = file.name.split(".").pop();
+          const fileName = `${user.id}/${post.id}/${index}.${fileExt}`;
+          const { error: uploadError } = await supabase.storage
+            .from("post-images")
+            .upload(fileName, file);
+          if (uploadError) {
+            console.error("Failed to upload image:", uploadError);
+            return null;
+          }
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("post-images").getPublicUrl(fileName);
+          return {
+            post_id: post.id,
+            image_url: publicUrl,
+            image_order: index,
+          };
+        });
+        const imageRecords = await Promise.all(uploadPromises);
+        const validImageRecords = imageRecords.filter((r) => r !== null);
+        if (validImageRecords.length > 0) {
+          const { error: imageError } = await supabase
+            .from("post_images")
+            .insert(validImageRecords);
+          if (imageError) {
+            console.error("Failed to create image record:", imageError);
+          }
+        }
+      }
       setContent("");
       setFiles([]);
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -70,34 +114,28 @@ export function CreatePostDialog() {
   return (
     <>
       <Button
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowModal((prev) => !prev)}
         size="icon"
-        className="cursor-pointer fixed bottom-6 right-6 md:bottom-8 md:right-8 h-14 w-14 rounded-full shadow-lg z-50 hover:scale-110 transition-transform"
+        className="cursor-pointer fixed left-1/2 -translate-x-1/2 bottom-4 h-10 w-10 rounded-full shadow-lg z-50 hover:scale-110 transition-transform"
       >
-        <Plus className="h-8 w-8" />
+        <Plus
+          className={cn(
+            "h-8 w-8 transition-transform",
+            showModal ? "rotate-45" : ""
+          )}
+        />
         <span className="sr-only">Create new post</span>
       </Button>
 
       {showModal && (
         <div
           className={cn(
-            "fixed bottom-6 right-6 md:bottom-8 md:right-8 max-w-2xl w-full bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-6",
+            "fixed bottom-16 left-1/2 -translate-x-1/2 max-w-2xl w-full bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-6",
             showModal ? "scale-100 opacity-100" : "scale-90 opacity-0",
             "animate-modal"
           )}
         >
-          <div className="flex justify-between mb-2">
-            <h2 className="text-lg font-bold">New Post</h2>
-            <Button
-              variant="ghost"
-              onClick={() => setShowModal(false)}
-              size="icon"
-              className="rounded-full cursor-pointer"
-              disabled={isSubmitting}
-            >
-              <X />
-            </Button>
-          </div>
+          <h2 className="text-lg font-bold mb-2">New Post</h2>
           <div>
             {previewUrls.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-2">

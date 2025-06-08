@@ -18,7 +18,7 @@ export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
 
   const isEven = images.length % 2 === 0;
   const multipleImageStyles = cn(
-    "grid w-full bg-muted gap-1 rounded overflow-hidden",
+    "grid w-full gap-1 rounded overflow-hidden",
     isEven ? "grid-cols-2" : "grid-cols-3"
   );
 
