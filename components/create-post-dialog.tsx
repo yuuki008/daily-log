@@ -127,77 +127,73 @@ export function CreatePostDialog() {
         <span className="sr-only">Create new post</span>
       </Button>
 
-      {showModal && (
-        <div
-          className={cn(
-            "fixed bottom-16 left-1/2 -translate-x-1/2 max-w-2xl w-full bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-6",
-            showModal ? "scale-100 opacity-100" : "scale-90 opacity-0",
-            "animate-modal"
+      <div
+        className={cn(
+          "fixed bottom-16 left-1/2 -translate-x-1/2 max-w-2xl w-[90%] bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-6",
+          "transition-all duration-300",
+          showModal ? "scale-100 opacity-100" : "scale-90 opacity-0"
+        )}
+      >
+        <h2 className="text-lg font-bold mb-2">New Post</h2>
+        <div>
+          {previewUrls.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-2">
+              {previewUrls.map((url, index) => (
+                <div key={index} className="relative group">
+                  <Image
+                    src={url}
+                    alt={`Preview ${index + 1}`}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover w-20 h-20 hover:brightness-80 transition-all"
+                  />
+                  <button
+                    onClick={() => removeImage(index)}
+                    className="absolute top-0 cursor-pointer right-0 p-1 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    disabled={isSubmitting}
+                  >
+                    <X className="h-4 w-4 text-white" />
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
-        >
-          <h2 className="text-lg font-bold mb-2">New Post</h2>
-          <div>
-            {previewUrls.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-2">
-                {previewUrls.map((url, index) => (
-                  <div key={index} className="relative group">
-                    <Image
-                      src={url}
-                      alt={`Preview ${index + 1}`}
-                      width={100}
-                      height={100}
-                      className="rounded-lg object-cover w-20 h-20 hover:brightness-80 transition-all"
-                    />
-                    <button
-                      onClick={() => removeImage(index)}
-                      className="absolute top-0 cursor-pointer right-0 p-1 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                      disabled={isSubmitting}
-                    >
-                      <X className="h-4 w-4 text-white" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
 
-            <Textarea
-              placeholder="What's happening?"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="min-h-[120px] resize-none text-base mb-2"
-              disabled={isSubmitting}
-            />
+          <Textarea
+            placeholder="What's happening?"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="min-h-[120px] resize-none text-base mb-2"
+            disabled={isSubmitting}
+          />
 
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" asChild>
-                  <label>
-                    <ImageIcon className="h-5 w-5 text-muted-foreground" />
-                    <span className="sr-only">Add image</span>
-                    <input {...getInputProps()} style={{ display: "none" }} />
-                  </label>
-                </Button>
-              </div>
-
-              <Button
-                onClick={handleSubmit}
-                disabled={
-                  (!content.trim() && files.length === 0) || isSubmitting
-                }
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Posting...
-                  </>
-                ) : (
-                  "Post"
-                )}
+          <div className="flex justify-between">
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" asChild>
+                <label>
+                  <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                  <span className="sr-only">Add image</span>
+                  <input {...getInputProps()} style={{ display: "none" }} />
+                </label>
               </Button>
             </div>
+
+            <Button
+              onClick={handleSubmit}
+              disabled={(!content.trim() && files.length === 0) || isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Posting...
+                </>
+              ) : (
+                "Post"
+              )}
+            </Button>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

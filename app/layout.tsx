@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${notoSansJP.variable} antialiased`}>
+      <body className={`${notoSansJP.variable} antialiased text-sm`}>
         <Providers>
           <main className="px-4 py-8">{children}</main>
         </Providers>
