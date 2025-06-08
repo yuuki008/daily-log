@@ -12,21 +12,20 @@ const MAX_DISPLAY_IMAGES = 4;
 
 export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
   if (images.length === 0) return null;
-
-  const multipleImageStyles = cn(
-    "grid w-full gap-1 rounded overflow-hidden",
-    images.length === 3 ? "grid-cols-3" : "grid-cols-2"
-  );
+  if (images.length === 1)
+    return (
+      <div className="flex items-center justify-center rounded overflow-hidden">
+        <Image src={images[0]} alt={alt} width={1000} height={1000} />
+      </div>
+    );
 
   const displayImages = images.slice(0, MAX_DISPLAY_IMAGES);
 
   return (
     <div
       className={cn(
-        "w-full rounded overflow-hidden",
-        images.length === 1
-          ? "flex items-center justify-center"
-          : multipleImageStyles
+        "grid w-full gap-1 rounded overflow-hidden",
+        images.length === 3 ? "grid-cols-3" : "grid-cols-2"
       )}
     >
       {displayImages.map((image, index) => {
