@@ -150,11 +150,11 @@ export function CreatePostDialog() {
                         alt={`Preview ${index + 1}`}
                         width={100}
                         height={100}
-                        className="rounded-lg object-cover w-20 h-20 hover:brightness-80 transition-all"
+                        className="rounded-lg object-cover w-20 h-20"
                       />
                       <button
                         onClick={() => removeImage(index)}
-                        className="absolute top-0 cursor-pointer right-0 p-1 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-[-10] cursor-pointer right-[-10] p-1 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                         disabled={isSubmitting}
                       >
                         <X className="h-4 w-4 text-white" />
@@ -174,7 +174,12 @@ export function CreatePostDialog() {
 
               <div className="flex justify-between">
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" asChild>
+                  <Button
+                    className="cursor-pointer"
+                    variant="ghost"
+                    size="icon"
+                    asChild
+                  >
                     <label>
                       <ImageIcon className="h-5 w-5 text-muted-foreground" />
                       <span className="sr-only">Add image</span>
