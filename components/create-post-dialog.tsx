@@ -136,7 +136,7 @@ export function CreatePostDialog() {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
             className={cn(
-              "fixed bottom-16 left-1/2 -translate-x-1/2 max-w-2xl w-[90%] bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-6"
+              "fixed bottom-16 left-1/2 -translate-x-1/2 max-w-xl w-[95%] bg-background rounded-xl shadow-lg z-50 border border-muted-foreground/25 p-4"
             )}
           >
             <h2 className="text-lg font-bold mb-2">New Post</h2>

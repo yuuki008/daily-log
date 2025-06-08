@@ -6,7 +6,7 @@ export default async function HomePage() {
   const { posts, hasMore } = await getPosts(0, 10);
 
   return (
-    <section className="max-w-lg mx-auto">
+    <section className="max-w-lg mx-auto pb-12">
       <PostsList initialPosts={posts} initialHasMore={hasMore} />
       <CreatePostDialog />
     </section>
