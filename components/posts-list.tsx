@@ -86,7 +86,7 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
           return (
             <div key={post.id}>
               {showSeparator && (
-                <div className="sticky top-0 z-20 bg-secondary backdrop-blur py-1 px-2">
+                <div className="sticky top-0 z-20 bg-background text-center py-2">
                   <span className="text-xs font-semibold">{postDate}</span>
                 </div>
               )}
