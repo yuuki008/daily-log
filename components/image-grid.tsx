@@ -11,11 +11,12 @@ interface ImageGridProps {
 export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
   if (images.length === 0) return null;
 
-  const isEven = images.length % 2 === 0;
   const multipleImageStyles = cn(
     "grid w-full gap-1 rounded overflow-hidden",
-    isEven ? "grid-cols-2" : "grid-cols-3"
+    images.length === 3 ? "grid-cols-3" : "grid-cols-2"
   );
+
+  const displayImages = images.slice(0, 4);
 
   return (
     <div
@@ -26,10 +27,10 @@ export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
           : multipleImageStyles
       )}
     >
-      {images.map((image, index) => (
+      {displayImages.map((image, index) => (
         <div
           key={index}
-          className="flex items-center justify-center aspect-square hover:bg-muted/50 transition"
+          className="flex relative items-center justify-center aspect-square hover:bg-muted/50 transition"
           tabIndex={0}
           role="button"
           aria-label={`画像${index + 1}を拡大表示`}
@@ -41,6 +42,14 @@ export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
             height={1000}
             className="object-cover w-full h-full"
           />
+
+          {index === displayImages.length - 1 && images.length > 4 && (
+            <div className="absolute z-10 w-full h-full bg-black/50 flex items-center justify-center">
+              <span className="text-white text-3xl font-bold">
+                +{images.length - displayImages.length}
+              </span>
+            </div>
+          )}
         </div>
       ))}
     </div>
