@@ -102,8 +102,12 @@ export function CreatePostDialog({ onPostCreated }: CreatePostDialogProps) {
           }
         }
       }
-      // 投稿作成成功時にコールバックを呼ぶ
       if (onPostCreated) onPostCreated();
+      setContent("");
+      setFiles([]);
+      previewUrls.forEach((url) => URL.revokeObjectURL(url));
+      setPreviewUrls([]);
+      setShowModal(false);
     } catch (error) {
       console.error("Failed to create post:", error);
     } finally {
