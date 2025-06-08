@@ -89,16 +89,20 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
   );
 
   return (
-    <div className="relative max-w-lg mx-auto pb-12">
+    <div className="relative max-w-lg mx-auto pt-8 pb-12">
       <div>
         {sortedDates.map((date) => (
           <div key={date}>
-            <div className="sticky top-0 z-20 bg-secondary text-left p-2">
-              {dayjs(date).format("MMM D, YYYY")}
+            <div className="sticky top-2 z-20 flex justify-center items-center">
+              <div className="text-center bg-accent rounded-full px-2 py-1 border">
+                {dayjs(date).format("MMM D, YYYY")}
+              </div>
             </div>
-            {grouped[date].map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
+            <div className="mt-4">
+              {grouped[date].map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
           </div>
         ))}
       </div>
