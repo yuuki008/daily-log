@@ -5,6 +5,7 @@ import { PostCard } from "@/components/post-card";
 import { Loader2 } from "lucide-react";
 import { Post } from "@/lib/types/post";
 import { getPostsClient } from "@/lib/api/posts-client";
+import dayjs from "dayjs";
 
 interface PostsListProps {
   initialPosts: Post[];
@@ -73,7 +74,9 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
 
   return (
     <div className="relative max-w-lg mx-auto pb-12">
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 h-10 max-w-lg mx-auto w-full leading-10 text-center bg-background border-b z-20"></div>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 h-10 max-w-lg mx-auto w-full leading-10 text-center bg-background border-b z-20">
+        {dayjs().format("YYYY-MM-DD")}
+      </div>
 
       <div className="pt-10">
         {posts.map((post) => (
