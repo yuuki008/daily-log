@@ -12,13 +12,16 @@ import { cn } from "@/lib/utils";
 import createClient from "@/lib/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function CreatePostDialog() {
+interface CreatePostDialogProps {
+  onPostCreated?: () => void;
+}
+
+export function CreatePostDialog({ onPostCreated }: CreatePostDialogProps) {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const imageFiles = acceptedFiles.filter((file) =>
       file.type.startsWith("image/")
@@ -99,11 +102,8 @@ export function CreatePostDialog() {
           }
         }
       }
-      setContent("");
-      setFiles([]);
-      previewUrls.forEach((url) => URL.revokeObjectURL(url));
-      setPreviewUrls([]);
-      setShowModal(false);
+      // 投稿作成成功時にコールバックを呼ぶ
+      if (onPostCreated) onPostCreated();
     } catch (error) {
       console.error("Failed to create post:", error);
     } finally {
