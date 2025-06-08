@@ -8,6 +8,8 @@ interface ImageGridProps {
   alt?: string;
 }
 
+const MAX_DISPLAY_IMAGES = 4;
+
 export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
   if (images.length === 0) return null;
 
@@ -16,7 +18,7 @@ export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
     images.length === 3 ? "grid-cols-3" : "grid-cols-2"
   );
 
-  const displayImages = images.slice(0, 4);
+  const displayImages = images.slice(0, MAX_DISPLAY_IMAGES);
 
   return (
     <div
@@ -27,31 +29,39 @@ export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
           : multipleImageStyles
       )}
     >
-      {displayImages.map((image, index) => (
-        <div
-          key={index}
-          className="flex relative items-center justify-center aspect-square hover:bg-muted/50 transition"
-          tabIndex={0}
-          role="button"
-          aria-label={`画像${index + 1}を拡大表示`}
-        >
-          <Image
-            src={image}
-            alt={`${alt} ${index + 1}`}
-            width={1000}
-            height={1000}
-            className="object-cover w-full h-full"
-          />
+      {displayImages.map((image, index) => {
+        const isLastVisibleImageAndHasMore =
+          index === displayImages.length - 1 &&
+          images.length > MAX_DISPLAY_IMAGES;
 
-          {index === displayImages.length - 1 && images.length > 4 && (
-            <div className="absolute z-10 w-full h-full bg-black/50 flex items-center justify-center">
-              <span className="text-white text-3xl font-bold">
-                +{images.length - displayImages.length}
-              </span>
-            </div>
-          )}
-        </div>
-      ))}
+        const remainingImages = images.length - MAX_DISPLAY_IMAGES;
+
+        return (
+          <div
+            key={index}
+            className="flex relative items-center justify-center aspect-square hover:bg-muted/50 transition"
+            tabIndex={0}
+            role="button"
+            aria-label={`画像${index + 1}を拡大表示`}
+          >
+            <Image
+              src={image}
+              alt={`${alt} ${index + 1}`}
+              width={1000}
+              height={1000}
+              className="object-cover w-full h-full"
+            />
+
+            {isLastVisibleImageAndHasMore && (
+              <div className="absolute z-10 w-full h-full bg-black/50 flex items-center justify-center">
+                <span className="text-white text-3xl font-bold">
+                  +{remainingImages}
+                </span>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
