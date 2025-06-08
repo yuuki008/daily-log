@@ -12,6 +12,17 @@ interface PostsListProps {
   initialHasMore: boolean;
 }
 
+function groupPostsByDate(posts: Post[]) {
+  return posts.reduce((groups: Record<string, Post[]>, post) => {
+    const date = dayjs(post.created_at).format("YYYY-MM-DD");
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(post);
+    return groups;
+  }, {} as Record<string, Post[]>);
+}
+
 export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [page, setPage] = useState(1);
@@ -72,26 +83,24 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
     );
   }
 
+  const grouped = groupPostsByDate(posts);
+  const sortedDates = Object.keys(grouped).sort((a, b) =>
+    dayjs(b).isAfter(dayjs(a)) ? 1 : -1
+  );
+
   return (
     <div className="relative max-w-lg mx-auto pb-12">
       <div>
-        {posts.map((post, idx) => {
-          const prevPost = posts[idx - 1];
-          const isSame =
-            prevPost &&
-            dayjs(prevPost.created_at).isSame(post.created_at, "day");
-          if (prevPost && isSame) return <PostCard key={post.id} post={post} />;
-
-          const postDate = dayjs(post.created_at).format("MMM D, YYYY	");
-          return (
-            <div key={post.id}>
-              <div className="sticky top-0 z-20 bg-background text-left p-2">
-                {postDate}
-              </div>
-              <PostCard post={post} />
+        {sortedDates.map((date) => (
+          <div key={date}>
+            <div className="sticky top-0 z-20 bg-secondary text-left p-2">
+              {dayjs(date).format("MMM D, YYYY")}
             </div>
-          );
-        })}
+            {grouped[date].map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+        ))}
       </div>
 
       {hasMore && (
