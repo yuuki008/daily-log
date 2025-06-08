@@ -76,20 +76,18 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
     <div className="relative max-w-lg mx-auto pb-12">
       <div>
         {posts.map((post, idx) => {
-          const postDate = dayjs(post.created_at).format("YYYY-MM-DD");
-          const prevPostDate =
-            idx > 0
-              ? dayjs(posts[idx - 1].created_at).format("YYYY-MM-DD")
-              : "";
-          const showSeparator = idx === 0 || postDate !== prevPostDate;
+          const prevPost = posts[idx - 1];
+          const isSame =
+            prevPost &&
+            dayjs(prevPost.created_at).isSame(post.created_at, "day");
+          if (prevPost && isSame) return <PostCard key={post.id} post={post} />;
 
+          const postDate = dayjs(post.created_at).format("MMM D, YYYY	");
           return (
             <div key={post.id}>
-              {showSeparator && (
-                <div className="sticky top-0 z-20 bg-background text-center py-2">
-                  {postDate}
-                </div>
-              )}
+              <div className="sticky top-0 z-20 bg-background text-left p-2">
+                {postDate}
+              </div>
               <PostCard post={post} />
             </div>
           );
