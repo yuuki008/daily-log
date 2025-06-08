@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import { Post } from "@/lib/types/post";
 import { getPostsClient } from "@/lib/api/posts-client";
 import dayjs from "dayjs";
+import { PostDialog } from "./post-dialog";
 
 interface PostsListProps {
   initialPosts: Post[];
@@ -28,6 +29,12 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialHasMore);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+
+  const handlePostClick = (post: Post) => {
+    setSelectedPost(post);
+  };
+
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -100,7 +107,11 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
             </div>
             <div className="mt-4">
               {grouped[date].map((post) => (
-                <PostCard key={post.id} post={post} />
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  onClick={() => handlePostClick(post)}
+                />
               ))}
             </div>
           </div>
@@ -121,6 +132,10 @@ export function PostsList({ initialPosts, initialHasMore }: PostsListProps) {
             All posts are displayed
           </p>
         </div>
+      )}
+
+      {selectedPost && (
+        <PostDialog post={selectedPost} onClose={() => setSelectedPost(null)} />
       )}
     </div>
   );
