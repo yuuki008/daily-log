@@ -16,14 +16,14 @@ export function PostCard({ post, onDelete }: PostCardProps) {
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
-    if (!window.confirm("本当に削除しますか？")) return;
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
     setLoading(true);
     const { error } = await deletePostClient(post.id);
     setLoading(false);
     if (!error && onDelete) {
       onDelete(post.id);
     } else if (error) {
-      alert("削除に失敗しました");
+      alert("Failed to delete the post");
     }
   };
 

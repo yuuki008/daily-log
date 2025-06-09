@@ -53,7 +53,7 @@ export function CreatePostDialog({ onPostCreated }: CreatePostDialogProps) {
     setIsSubmitting(true);
     try {
       const supabase = createClient();
-      // ユーザー取得
+      // Get user
       const {
         data: { user },
         error: userError,
@@ -61,7 +61,7 @@ export function CreatePostDialog({ onPostCreated }: CreatePostDialogProps) {
       if (userError || !user) {
         throw new Error("User is not authenticated");
       }
-      // 投稿作成
+      // Create post
       const { data: post, error: postError } = await supabase
         .from("posts")
         .insert({ user_id: user.id, content })
@@ -70,7 +70,7 @@ export function CreatePostDialog({ onPostCreated }: CreatePostDialogProps) {
       if (postError || !post) {
         throw new Error("Failed to create post");
       }
-      // 画像アップロード
+      // Upload images
       if (files.length > 0) {
         const uploadPromises = files.map(async (file, index) => {
           const fileExt = file.name.split(".").pop();

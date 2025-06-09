@@ -41,7 +41,7 @@ export function ImageGrid({ images, alt = "Post image" }: ImageGridProps) {
             className="flex relative items-center justify-center aspect-square hover:bg-muted/50 transition"
             tabIndex={0}
             role="button"
-            aria-label={`画像${index + 1}を拡大表示`}
+            aria-label={`Enlarge image ${index + 1}`}
           >
             <Image
               src={image}
