@@ -35,7 +35,7 @@ export function PostCard({ post, onDelete }: PostCardProps) {
     >
       <div
         className={cn(
-          "absolute right-2 bottom-2 z-10 opacity-0 transition-opacity duration-300",
+          "absolute right-2 bottom-2 z-20 opacity-0 transition-opacity duration-300",
           hovered && "opacity-100"
         )}
       >
