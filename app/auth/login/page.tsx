@@ -43,39 +43,41 @@ function LoginPageInner() {
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-semibold">Welcome back</h1>
-        <p className="mt-2 text-muted-foreground">
-          Login to your account to continue
-        </p>
-      </div>
-
-      {error && (
-        <div className="rounded-md border px-4 py-3">
-          <p className="text-sm">
-            <CircleAlert
-              className="me-3 -mt-0.5 inline-flex text-red-500"
-              size={16}
-              aria-hidden="true"
-            />
-            {error}
+      <div className="max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold">Welcome back</h1>
+          <p className="mt-2 text-muted-foreground">
+            Login to your account to continue
           </p>
         </div>
-      )}
 
-      <Button
-        variant="outline"
-        className="w-full"
-        onClick={loginWithGoogle}
-        disabled={isGoogleLoading}
-      >
-        {isGoogleLoading ? (
-          <LoaderCircle className="animate-spin size-5" />
-        ) : (
-          <GoogleIcon />
+        {error && (
+          <div className="rounded-md border px-4 py-3">
+            <p className="text-sm">
+              <CircleAlert
+                className="me-3 -mt-0.5 inline-flex text-red-500"
+                size={16}
+                aria-hidden="true"
+              />
+              {error}
+            </p>
+          </div>
         )}
-        <span className="ml-2">Login with Google</span>
-      </Button>
+
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={loginWithGoogle}
+          disabled={isGoogleLoading}
+        >
+          {isGoogleLoading ? (
+            <LoaderCircle className="animate-spin size-5" />
+          ) : (
+            <GoogleIcon />
+          )}
+          <span className="ml-2">Login with Google</span>
+        </Button>
+      </div>
     </div>
   );
 }
