@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
 import { useSearchParams } from "next/navigation";
 
@@ -8,7 +8,7 @@ import createClient from "@/lib/supabase/client";
 import { CircleAlert, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function LoginPage() {
+function LoginPageInner() {
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +77,14 @@ export default function LoginPage() {
         <span className="ml-2">Login with Google</span>
       </Button>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginPageInner />
+    </Suspense>
   );
 }
 
