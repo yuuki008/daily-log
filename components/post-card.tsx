@@ -4,6 +4,7 @@ import { useState } from "react";
 import { deletePostClient } from "@/lib/api/posts-client";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PostCardProps {
   post: Post;
@@ -32,13 +33,21 @@ export function PostCard({ post, onDelete }: PostCardProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {hovered && (
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-          <Button variant="ghost" onClick={handleDelete} disabled={loading}>
-            <Trash2 className="w-5 h-5" />
-          </Button>
-        </div>
-      )}
+      <div
+        className={cn(
+          "absolute right-2 bottom-2 z-10 opacity-0 transition-opacity duration-300",
+          hovered && "opacity-100"
+        )}
+      >
+        <Button
+          className="cursor-pointer"
+          size="icon"
+          onClick={handleDelete}
+          disabled={loading}
+        >
+          <Trash2 />
+        </Button>
+      </div>
       {post.images && post.images.length > 0 && (
         <div className={post.content ? "mb-4" : ""}>
           <ImageGrid images={post.images} alt={post.content} />
