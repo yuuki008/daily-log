@@ -42,7 +42,7 @@ function LoginPageInner() {
   };
 
   return (
-    <div className="max-w-md mx-auto py-12">
+    <div className="h-screen flex flex-col justify-center items-center">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-semibold">Welcome back</h1>
         <p className="mt-2 text-muted-foreground">
