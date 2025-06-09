@@ -76,3 +76,11 @@ export async function getPostsClient(
 
   return { posts: formattedPosts, hasMore };
 }
+
+export async function deletePostClient(
+  id: string
+): Promise<{ error: Error | null }> {
+  const supabase = createClient();
+  const { error } = await supabase.from("posts").delete().eq("id", id);
+  return { error };
+}
